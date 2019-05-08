@@ -1,0 +1,29 @@
+version: "2.1"
+
+services:
+  neo4j:
+    image: neo4j:latest
+    container_name: neo4j_container
+    hostname: localhost
+    network_mode: host
+    ports:
+      - 7474:7474
+      - 7687:7687
+    volumes:
+      - $HOME/neo4j/data:/data
+    environment:
+      - NEO4J_AUTH=none
+
+  demo:
+    build: .
+    container_name: neo4j_demo
+    hostname: localhost
+    restart: always
+    depends_on:
+      - neo4j
+    network_mode: host
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+
